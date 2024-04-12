@@ -1,53 +1,25 @@
 package main
 
 import (
-	"log"
-	"log/slog"
-	"os"
-	"time"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
-	log.Println("Non structured log")
 
-	// logHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
-	// 	Level:     slog.LevelDebug,
-	// 	AddSource: true,
-	// })
+	log.SetLevel(log.TraceLevel)
 
-	logHandler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
-		Level:     slog.LevelDebug,
-		AddSource: true,
-		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
-			if a.Key == slog.TimeKey {
-				a.Value = slog.StringValue(time.Now().Format(time.ANSIC))
-			}
-			return a
-		},
-	}).WithAttrs([]slog.Attr{
-		slog.Group("values",
-			slog.String("app", "example"),
-			slog.Int("userId", 42),
-		),
-	})
+	log.SetFormatter(&log.JSONFormatter{})
 
-	logger := slog.New(logHandler)
+	log.WithFields(log.Fields{
+		"file":       "image.jpg",
+		"size_bytes": 132932,
+	}).Info("upload successful!")
 
-	slog.SetDefault(logger)
-
-	// Default log levels
-	slog.Info("Structured log")
-	slog.Debug("debug level")
-	slog.Warn("warn level")
-	slog.Error("error level")
-
-	// Custom logger
-	logger.Debug("debug level")
-	// logs with attributes
-	logger.Debug("debug level", "app", "example", "userId", 42)
-	logger.Debug("debug level", slog.String("app", "example"))
-	logger.Debug("debug level", slog.Group("values",
-		slog.String("app", "example"),
-		slog.Int("userId", 42),
-	))
+	log.Trace("Hello from Logrus!")
+	log.Debug("Hello from Logrus!")
+	log.Info("Hello from Logrus!")
+	log.Warn("Hello from Logrus!")
+	log.Error("Hello from Logrus!")
+	log.Fatal("Hello from Logrus!")
+	log.Panic("Hello from Logrus!")
 }
