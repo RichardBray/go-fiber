@@ -1,25 +1,25 @@
 package main
 
 import (
-	log "github.com/sirupsen/logrus"
+	"os"
+	"time"
+
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 func main() {
 
-	log.SetLevel(log.TraceLevel)
+	zerolog.SetGlobalLevel(zerolog.TraceLevel)
 
-	log.SetFormatter(&log.JSONFormatter{})
+	output := zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: time.RFC3339}
+	logger := zerolog.New(output).With().Timestamp().Caller().Logger()
 
-	log.WithFields(log.Fields{
-		"file":       "image.jpg",
-		"size_bytes": 132932,
-	}).Info("upload successful!")
-
-	log.Trace("Hello from Logrus!")
-	log.Debug("Hello from Logrus!")
-	log.Info("Hello from Logrus!")
-	log.Warn("Hello from Logrus!")
-	log.Error("Hello from Logrus!")
-	log.Fatal("Hello from Logrus!")
-	log.Panic("Hello from Logrus!")
+	log.Trace().Msg("this is a debug message")
+	logger.Debug().Msg("this is a debug message")
+	logger.Info().Msg("this is an info message")
+	logger.Warn().Msg("this is a warn message")
+	logger.Error().Msg("this is an error message")
+	// log.Fatal().Msg("this is a fatal message")
+	// log.Panic().Msg("This is a panic message")
 }
