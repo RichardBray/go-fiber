@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 
@@ -22,6 +23,8 @@ func main() {
 
 	app.Get("/", func(c fiber.Ctx) error {
 		slog.Info("Hello, World!")
+		fmt.Println("Hello, World!")
+		fmt.Println("Another print")
 		return c.SendString("Hello, World!")
 	})
 
