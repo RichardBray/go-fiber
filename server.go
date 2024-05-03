@@ -10,7 +10,7 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c fiber.Ctx) error {
-		fmt.Println("Hello, World!")
+		fmt.Println("Hello, World Again!")
 		return c.SendString("Hello, World!")
 	})
 
