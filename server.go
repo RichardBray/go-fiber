@@ -11,7 +11,6 @@ func main() {
 
 	app.Get("/", func(c fiber.Ctx) error {
 		fmt.Println("Hello, World!")
-		fmt.Println("Another print")
 		return c.SendString("Hello, World!")
 	})
 
