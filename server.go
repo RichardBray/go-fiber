@@ -22,7 +22,7 @@ func main() {
 
 	app.Get("/", func(c fiber.Ctx) error {
 		slog.Info("Hello, World!")
-		return c.SendString("Hello, World!")
+		return c.SendString("Some other text")
 	})
 
 	app.Listen(":3000")
