@@ -11,7 +11,7 @@ func main() {
 
 	app.Get("/", func(c fiber.Ctx) error {
 		fmt.Println("Hello, World Again!")
-		return c.SendString("Something is hapenning")
+		return c.SendString("Some other text")
 	})
 
 	app.Listen(":3000")
