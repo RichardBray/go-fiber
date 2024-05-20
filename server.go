@@ -33,9 +33,18 @@ func main() {
 		return c.SendString("Some other text")
 	})
 
-	app.Get("/articles", func(c fiber.Ctx) error {
+	app.Get("/article", func(c fiber.Ctx) error {
 		slog.Info(sensitiveData)
 		return c.JSON(articles)
+	})
+
+	app.Post("/article", func(c fiber.Ctx) error {
+		article := new(Article)
+		if err := c.AutoFormat(article); err != nil {
+			return err
+		}
+		articles = append(articles, *article)
+		return c.JSON(article)
 	})
 
 	app.Listen(":3000")
