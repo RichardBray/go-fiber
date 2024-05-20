@@ -43,6 +43,7 @@ func main() {
 		return c.JSON(article)
 	})
 
-	app.Listen(":3000")
-	slog.Info("Server started on port 3000")
+	PORT := "3000"
+	app.Listen(PORT)
+	slog.Info("Server started on port:" + PORT)
 }
