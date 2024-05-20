@@ -13,8 +13,6 @@ type Article struct {
 }
 
 func main() {
-
-	sensitiveData := "some secret text"
 	articles := []Article{}
 
 	logHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
@@ -29,18 +27,16 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c fiber.Ctx) error {
-		slog.Info(sensitiveData)
 		return c.SendString("Some other text")
 	})
 
 	app.Get("/article", func(c fiber.Ctx) error {
-		slog.Info(sensitiveData)
 		return c.JSON(articles)
 	})
 
 	app.Post("/article", func(c fiber.Ctx) error {
 		article := new(Article)
-		if err := c.AutoFormat(article); err != nil {
+		if err := c.Bind().Body(article); err != nil {
 			return err
 		}
 		articles = append(articles, *article)
