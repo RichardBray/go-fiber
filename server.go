@@ -9,6 +9,8 @@ import (
 
 func main() {
 
+	sensitiveData := "some secret text"
+
 	logHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
 		Level:     slog.LevelDebug,
 		AddSource: true,
@@ -21,7 +23,7 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c fiber.Ctx) error {
-		slog.Info("Hello, World!")
+		slog.Info(sensitiveData)
 		return c.SendString("Some other text")
 	})
 
