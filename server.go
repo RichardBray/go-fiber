@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 
@@ -8,6 +9,7 @@ import (
 )
 
 type Article struct {
+	Id    int
 	Title string
 	Text  string
 }
@@ -41,6 +43,17 @@ func main() {
 		}
 		articles = append(articles, *article)
 		return c.JSON(article)
+	})
+
+	app.Delete("/article/:id", func(c fiber.Ctx) error {
+		id := c.Params("id")
+		for i, article := range articles {
+			if id == fmt.Sprint(article.Id) {
+				articles = append(articles[:i], articles[i+1:]...)
+				return c.SendString("Article deleted")
+			}
+		}
+		return c.SendString("Article not found")
 	})
 
 	PORT := "4000"
