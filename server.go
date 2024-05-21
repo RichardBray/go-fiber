@@ -27,7 +27,7 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c fiber.Ctx) error {
-		return c.SendString("Some other text")
+		return c.SendString("Nothing to see here...")
 	})
 
 	app.Get("/article", func(c fiber.Ctx) error {
