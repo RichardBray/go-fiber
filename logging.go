@@ -10,11 +10,6 @@ import (
 func main() {
 	log.Println("Non structured log")
 
-	// logHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
-	// 	Level:     slog.LevelDebug,
-	// 	AddSource: true,
-	// })
-
 	logHandler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		Level:     slog.LevelDebug,
 		AddSource: true,
