@@ -30,12 +30,12 @@ func main() {
 		return c.SendString("Some other text")
 	})
 
-	app.Get("/article", func(c fiber.Ctx) error {
+	app.Get("/articles", func(c fiber.Ctx) error {
 		logger.Info("Getting all articles")
 		return c.JSON(articles)
 	})
 
-	app.Post("/article", func(c fiber.Ctx) error {
+	app.Post("/articles", func(c fiber.Ctx) error {
 		article := new(Article)
 		if err := c.Bind().Body(article); err != nil {
 			return err
