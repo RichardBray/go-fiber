@@ -31,6 +31,7 @@ func main() {
 	})
 
 	app.Get("/article", func(c fiber.Ctx) error {
+		logger.Info("Getting all articles")
 		return c.JSON(articles)
 	})
 
