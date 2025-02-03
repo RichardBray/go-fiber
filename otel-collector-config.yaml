@@ -8,6 +8,8 @@ receivers:
 
 exporters:
   debug:
+    verbosity: detailed  # Set verbosity to detailed
+
 
 service:
   pipelines:
