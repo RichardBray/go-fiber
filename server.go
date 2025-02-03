@@ -22,8 +22,6 @@ func main() {
 
 	logger := slog.New(logHandler)
 
-	slog.SetDefault(logger)
-
 	app := fiber.New()
 
 	app.Get("/", func(c fiber.Ctx) error {
@@ -41,12 +39,11 @@ func main() {
 			logger.Error("Error parsing article", err)
 			return err
 		}
-		logger.Info("Adding new article")
 		articles = append(articles, *article)
+		logger.Info("Added new article")
 		return c.JSON(article)
 	})
 
 	PORT := ":3000"
 	app.Listen(PORT)
-	slog.Info("Server started on port:" + PORT)
 }
