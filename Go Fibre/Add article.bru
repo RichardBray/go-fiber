@@ -1,0 +1,15 @@
+meta {
+  name: Add article
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/article
+  body: json
+  auth: none
+}
+
+body:json {
+  {"title": "Test title", "text": "Text text"}
+}

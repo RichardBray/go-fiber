@@ -1,9 +1,6 @@
 package main
 
 import (
-	"log/slog"
-	"os"
-
 	"github.com/gofiber/fiber/v3"
 )
 
@@ -15,14 +12,7 @@ type Article struct {
 func main() {
 	articles := []Article{}
 
-	logHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
-		Level:     slog.LevelDebug,
-		AddSource: true,
-	})
-
-	logger := slog.New(logHandler)
-
-	slog.SetDefault(logger)
+	logger := CreateLogger()
 
 	app := fiber.New()
 
@@ -35,16 +25,17 @@ func main() {
 		return c.JSON(articles)
 	})
 
-	app.Post("/articles", func(c fiber.Ctx) error {
+	app.Post("/article", func(c fiber.Ctx) error {
 		article := new(Article)
 		if err := c.Bind().Body(article); err != nil {
+			logger.Error("Error parsing article", err)
 			return err
 		}
 		articles = append(articles, *article)
+		logger.Info("Added new article")
 		return c.JSON(article)
 	})
 
-	PORT := "3000"
+	PORT := ":3000"
 	app.Listen(PORT)
-	slog.Info("Server started on port:" + PORT)
 }
