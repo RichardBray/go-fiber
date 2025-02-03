@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Go Fibre",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

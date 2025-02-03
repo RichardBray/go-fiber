@@ -35,16 +35,18 @@ func main() {
 		return c.JSON(articles)
 	})
 
-	app.Post("/articles", func(c fiber.Ctx) error {
+	app.Post("/article", func(c fiber.Ctx) error {
 		article := new(Article)
 		if err := c.Bind().Body(article); err != nil {
+			logger.Error("Error parsing article", err)
 			return err
 		}
+		logger.Info("Adding new article")
 		articles = append(articles, *article)
 		return c.JSON(article)
 	})
 
-	PORT := "3000"
+	PORT := ":3000"
 	app.Listen(PORT)
 	slog.Info("Server started on port:" + PORT)
 }
