@@ -1,5 +1,11 @@
 # Simple Fiber Server
 
 ```bash
-go run server.go
+go run main.go
+```
+
+or
+
+```bash
+go run .
 ```

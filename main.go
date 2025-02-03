@@ -1,9 +1,6 @@
 package main
 
 import (
-	"log/slog"
-	"os"
-
 	"github.com/gofiber/fiber/v3"
 )
 
@@ -15,12 +12,7 @@ type Article struct {
 func main() {
 	articles := []Article{}
 
-	logHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
-		Level:     slog.LevelDebug,
-		AddSource: true,
-	})
-
-	logger := slog.New(logHandler)
+	logger := CreateLogger()
 
 	app := fiber.New()
 
