@@ -1,41 +1,48 @@
-// package main
+package main
 
-// import (
-// 	"github.com/gofiber/fiber/v3"
-// )
+import (
+	"context"
+	"log/slog"
 
-// type Article struct {
-// 	Title string
-// 	Text  string
-// }
+	"github.com/gofiber/fiber/v3"
+)
 
-// func main() {
-// 	articles := []Article{}
+type Article struct {
+	Title string
+	Text  string
+}
 
-// 	logger := CreateLogger()
+func main() {
+	articles := []Article{}
+	ctx := context.Background()
 
-// 	app := fiber.New()
+	app := fiber.New()
 
-// 	app.Get("/", func(c fiber.Ctx) error {
-// 		return c.SendString("Hallo Welt!!")
-// 	})
+	logger, loggerProvider := CreateLogger(ctx)
 
-// 	app.Get("/articles", func(c fiber.Ctx) error {
-// 		logger.Info("Getting all articles")
-// 		return c.JSON(articles)
-// 	})
+	// makes sure resources are cleaned up when logProvider is not needed anymore
+	defer loggerProvider.Shutdown(ctx)
 
-// 	app.Post("/article", func(c fiber.Ctx) error {
-// 		article := new(Article)
-// 		if err := c.Bind().Body(article); err != nil {
-// 			logger.Error("Error parsing article", err)
-// 			return err
-// 		}
-// 		articles = append(articles, *article)
-// 		logger.Info("Added new article")
-// 		return c.JSON(article)
-// 	})
+	app.Get("/", func(c fiber.Ctx) error {
+		return c.SendString("Hallo Welt!!")
+	})
 
-// 	PORT := ":3000"
-// 	app.Listen(PORT)
-// }
+	app.Get("/articles", func(c fiber.Ctx) error {
+		logger.Info("Getting all articles")
+		return c.JSON(articles)
+	})
+
+	app.Post("/article", func(c fiber.Ctx) error {
+		article := new(Article)
+		if err := c.Bind().Body(article); err != nil {
+			logger.Error("Error parsing article", err)
+			return err
+		}
+		articles = append(articles, *article)
+		logger.Info("Added new article", slog.String("article.title", article.Title))
+		return c.JSON(article)
+	})
+
+	PORT := ":3000"
+	app.Listen(PORT)
+}

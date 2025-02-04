@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 
 	"go.opentelemetry.io/contrib/bridges/otelslog"
@@ -11,11 +12,11 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
 )
 
-func main() {
-	// What does this do?
-	ctx := context.Background()
-
+func CreateLogger(ctx context.Context) (*slog.Logger, *log.LoggerProvider) {
 	res, err := newResource()
+	if err != nil {
+		fmt.Errorf("failed to create resource: %w", err)
+	}
 
 	logExporter, err := otlploghttp.New(ctx, otlploghttp.WithInsecure())
 	if err != nil {
@@ -27,29 +28,18 @@ func main() {
 		log.WithProcessor(log.NewBatchProcessor(logExporter)),
 	)
 
-	// makes sure resources are cleaned up when logProvider is not needed anymore
-	defer logProvider.Shutdown(ctx)
-
 	logger := otelslog.NewLogger("hello",
-		otelslog.WithSource(true),
+		otelslog.WithSource(true), // Includes source location of log in attributes
 		otelslog.WithLoggerProvider(logProvider),
 	)
 
-	logger.Debug("Are you alive?")
-
-	logger.Info("This is an info log message.")
-	logger.Error("This is an error log message.")
-
-	// Optionally, you can also log with additional context
-	logger.Info("Log with context", slog.String("context.key", "context value"))
-
-	// return logger
+	return logger, logProvider
 }
 
 func newResource() (*resource.Resource, error) {
 	return resource.Merge(resource.Default(),
 		resource.NewWithAttributes(semconv.SchemaURL,
-			semconv.ServiceName("my-service"),
+			semconv.ServiceName("go-fiber-app"),
 			semconv.ServiceVersion("0.1.0"),
 		))
 }
