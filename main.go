@@ -9,9 +9,8 @@ type Article struct {
 	Text  string
 }
 
-func main() {
+func setupApp() *fiber.App {
 	articles := []Article{}
-
 	app := fiber.New()
 
 	app.Get("/", func(c fiber.Ctx) error {
@@ -25,12 +24,19 @@ func main() {
 	app.Post("/article", func(c fiber.Ctx) error {
 		article := new(Article)
 		if err := c.Bind().Body(article); err != nil {
-			return err
+			return c.Status(fiber.StatusBadRequest).JSON(
+				fiber.Map{"error": "Invalid input"},
+			)
 		}
 		articles = append(articles, *article)
 		return c.JSON(article)
 	})
 
+	return app
+}
+
+func main() {
+	app := setupApp()
 	PORT := ":3000"
 	app.Listen(PORT)
 }
