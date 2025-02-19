@@ -16,6 +16,7 @@ jobs:
     - name: Call Dagger Function to build and test
       uses: dagger/dagger-for-github@v7
       with:
+        version: latest
         call: test --source .
         cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
 
