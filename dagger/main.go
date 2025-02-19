@@ -28,7 +28,8 @@ func (m *GoFiber) Test(ctx context.Context, source *dagger.Directory) (string, e
 		From("golang:1.23").
 		WithMountedDirectory("/src", source).
 		WithWorkdir("/src").
-		WithExec([]string{"go", "mod", "download"}).
+		// WithExec([]string{"go", "mod", "download"}).
+		WithMountedCache("/go/pkg/mod", dag.CacheVolume("go-mod-123")).
 		WithExec([]string{"go", "test", "-v"}).
 		Stdout(ctx)
 }

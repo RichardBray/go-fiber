@@ -1,0 +1,8 @@
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib
+    container_name: otel-collector
+    volumes:
+      - ./otelcol.yaml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - "4318:4318" # OTLP HTTP receiver

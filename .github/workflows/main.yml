@@ -13,13 +13,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v5
+    - name: Call Dagger Function to build and test
+      uses: dagger/dagger-for-github@v7
       with:
-        go-version: 1.23
+        call: test --source .
 
-    - name: Install dependencies
-      run: go mod download
+    # - name: Set up Go
+    #   uses: actions/setup-go@v5
+    #   with:
+    #     go-version: 1.23
 
-    - name: Run tests
-      run: go test -v
+    # - name: Install dependencies
+    #   run: go mod download
+
+    # - name: Run tests
+    #   run: go test -v
