@@ -9,11 +9,8 @@ type Article struct {
 	Text  string
 }
 
-func main() {
+func setupApp() *fiber.App {
 	articles := []Article{}
-
-	logger := CreateLogger()
-
 	app := fiber.New()
 
 	app.Get("/", func(c fiber.Ctx) error {
@@ -21,21 +18,25 @@ func main() {
 	})
 
 	app.Get("/articles", func(c fiber.Ctx) error {
-		logger.Info("Getting all articles")
 		return c.JSON(articles)
 	})
 
 	app.Post("/article", func(c fiber.Ctx) error {
 		article := new(Article)
 		if err := c.Bind().Body(article); err != nil {
-			logger.Error("Error parsing article", err)
-			return err
+			return c.Status(fiber.StatusBadRequest).JSON(
+				fiber.Map{"error": "Invalid input"},
+			)
 		}
 		articles = append(articles, *article)
-		logger.Info("Added new article")
 		return c.JSON(article)
 	})
 
+	return app
+}
+
+func main() {
+	app := setupApp()
 	PORT := ":3000"
 	app.Listen(PORT)
 }
