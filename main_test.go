@@ -41,7 +41,7 @@ func TestCreateArticle(t *testing.T) {
 	app := setupApp()
 
 	articleJSON := `{"Title":"Test Article","Text":"This is a test article"}`
-	req := httptest.NewRequest("POST", "/articles", strings.NewReader(articleJSON))
+	req := httptest.NewRequest("POST", "/article", strings.NewReader(articleJSON))
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := app.Test(req)
