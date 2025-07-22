@@ -26,7 +26,7 @@ func TestHomeRoute(t *testing.T) {
 func TestGetArticles(t *testing.T) {
 	app := setupApp()
 
-	req := httptest.NewRequest("GET", "/articles", nil)
+	req := httptest.NewRequest("GET", "/article", nil)
 	resp, err := app.Test(req)
 	assert.NoError(t, err)
 	assert.Equal(t, 200, resp.StatusCode)

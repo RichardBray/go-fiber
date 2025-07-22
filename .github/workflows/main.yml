@@ -28,7 +28,7 @@ jobs:
     - name: Notify Better Stack on failure
       if: failure()
       run: |
-        curl -X POST "https://uptime.betterstack.com/api/v1/incoming-webhook/JcPJ3i9kbeaaw974EC4EyFP8" \
+        curl -X POST "https://uptime.betterstack.com/api/v1/incoming-webhook/a981Z9dePVuSRYqV5yT24G4R" \
           -H "Content-Type: application/json" \
           -d '{
             "summary": "${{ github.workflow }} failed: Go tests in ${{ github.repository }}",
@@ -44,7 +44,7 @@ jobs:
     - name: Notify Better Stack on success
       if: success()
       run: |
-        curl -X POST "https://uptime.betterstack.com/api/v1/incoming-webhook/JcPJ3i9kbeaaw974EC4EyFP8" \
+        curl -X POST "https://uptime.betterstack.com/api/v1/incoming-webhook/a981Z9dePVuSRYqV5yT24G4R" \
           -H "Content-Type: application/json" \
           -d '{
             "summary": "${{ github.workflow }} passed: Go tests in ${{ github.repository }}",
