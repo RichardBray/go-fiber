@@ -31,15 +31,28 @@ jobs:
         curl -X POST "https://uptime.betterstack.com/api/v1/incoming-webhook/JcPJ3i9kbeaaw974EC4EyFP8" \
           -H "Content-Type: application/json" \
           -d '{
-            "summary": "Build failed for ${{ github.repository }}",
-            "description": "Workflow ${{ github.workflow }} failed on branch ${{ github.ref_name }}",
-            "source": "GitHub Actions",
+            "summary": "${{ github.workflow }} failed: Go tests in ${{ github.repository }}",
+            "incident_key": "${{ github.workflow }}-${{ github.ref_name }}",
             "severity": "error",
             "metadata": {
               "repository": "${{ github.repository }}",
               "branch": "${{ github.ref_name }}",
-              "commit": "${{ github.sha }}",
-              "workflow": "${{ github.workflow }}",
-              "run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              "commit": "${{ github.sha }}"
+            }
+          }'
+
+    - name: Notify Better Stack on success
+      if: success()
+      run: |
+        curl -X POST "https://uptime.betterstack.com/api/v1/incoming-webhook/JcPJ3i9kbeaaw974EC4EyFP8" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "summary": "${{ github.workflow }} passed: Go tests in ${{ github.repository }}",
+            "incident_key": "${{ github.workflow }}-${{ github.ref_name }}",
+            "severity": "error",
+            "metadata": {
+              "repository": "${{ github.repository }}",
+              "branch": "${{ github.ref_name }}",
+              "commit": "${{ github.sha }}"
             }
           }'
