@@ -49,7 +49,7 @@ jobs:
           -d '{
             "summary": "${{ github.workflow }} passed: Go tests in ${{ github.repository }}",
             "incident_key": "${{ github.workflow }}-${{ github.ref_name }}",
-            "severity": "error",
+            "severity": "info",
             "metadata": {
               "repository": "${{ github.repository }}",
               "branch": "${{ github.ref_name }}",
